@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def main():
     # Create agent with desired logging level
-    agent = SimpleCartPole(log_level=logging.INFO)
+    agent = SimpleCartPole(log_level=logging.DEBUG)
     
     # Train
     agent.train(episodes=200)

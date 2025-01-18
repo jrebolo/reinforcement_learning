@@ -16,6 +16,7 @@ class SimpleCartPole:
         self.training_env = gym.make('CartPole-v1')
         
         # Discretize the continuous state space into buckets
+        # position, velocity, angle, angular velocity
         self.n_buckets = (3, 3, 6, 6)
         self.state_bounds = [
             [-4.8, 4.8],
@@ -36,7 +37,7 @@ class SimpleCartPole:
         self.epsilon = 1.0
         
         self.logger.info(f"Learning parameters - LR: {self.learning_rate}, Discount: {self.discount}, Initial epsilon: {self.epsilon}")
-        
+        self.logger.info(f"Q Table Dimentions: {self.q_table.shape}")
         # Training history
         self.reward_history = []
         self.epsilon_history = []
