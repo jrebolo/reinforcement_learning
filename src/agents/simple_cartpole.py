@@ -7,7 +7,13 @@ import logging
 from src.config.logging_config import setup_logger
 
 class SimpleCartPole:
-    def __init__(self, log_level=logging.INFO):
+    def __init__(self, 
+                 learning_rate=0.1,
+                 discount=0.95,
+                 epsilon_decay=0.995,
+                 n_buckets=(3, 3, 6, 6),
+                 log_level=logging.INFO):
+        
         # Set up logging
         self.logger = setup_logger('CartPole', log_level)
         
@@ -17,7 +23,7 @@ class SimpleCartPole:
         
         # Discretize the continuous state space into buckets
         # position, velocity, angle, angular velocity
-        self.n_buckets = (3, 3, 6, 6)
+        self.n_buckets = n_buckets
         self.state_bounds = [
             [-4.8, 4.8],
             [-5, 5],
@@ -32,12 +38,14 @@ class SimpleCartPole:
         self.q_table = np.zeros(self.n_buckets + (2,))
         
         # Learning parameters
-        self.learning_rate = 0.1
-        self.discount = 0.95
+        self.learning_rate = learning_rate
+        self.discount = discount
         self.epsilon = 1.0
+        self.epsilon_decay = epsilon_decay
         
-        self.logger.info(f"Learning parameters - LR: {self.learning_rate}, Discount: {self.discount}, Initial epsilon: {self.epsilon}")
+        self.logger.info(f"Learning parameters - LR: {self.learning_rate}, Discount: {self.discount}, Initial epsilon decay: {self.epsilon_decay}")
         self.logger.info(f"Q Table Dimentions: {self.q_table.shape}")
+        
         # Training history
         self.reward_history = []
         self.epsilon_history = []
